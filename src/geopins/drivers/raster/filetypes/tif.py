@@ -113,8 +113,6 @@ def pin_write_raster_tif(  # noqa: PLR0913
             # https://github.com/rstudio/pins-python/pull/335
             warnings.simplefilter("ignore", category=ResourceWarning)
 
-            print("title is", title)
-
             return board.pin_upload(
                 paths=[tif_path.as_posix()],
                 name=name,

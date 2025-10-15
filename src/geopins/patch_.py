@@ -1,7 +1,7 @@
 import pins
 from pins.boards import BaseBoard
 
-from geopins.board import GeoBaseBoard
+from geopins.boards import GeoBaseBoard
 
 
 def patch() -> None:

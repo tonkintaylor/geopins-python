@@ -885,6 +885,7 @@ doc = [
 test = [
     { name = "coverage", extra = ["toml"] },
     { name = "detect-test-pollution" },
+    { name = "pandas" },
     { name = "pytest" },
     { name = "pytest-cov" },
     { name = "pytest-emoji" },
@@ -925,6 +926,7 @@ doc = [{ name = "mkdocs", specifier = ">=1.6.1" }]
 test = [
     { name = "coverage", extras = ["toml"], specifier = ">=7.10.1" },
     { name = "detect-test-pollution", specifier = ">=1.2.0" },
+    { name = "pandas", specifier = ">=2.3.3" },
     { name = "pytest", specifier = ">=8.4.1" },
     { name = "pytest-cov", specifier = ">=6.2.1" },
     { name = "pytest-emoji", specifier = ">=0.2.0" },

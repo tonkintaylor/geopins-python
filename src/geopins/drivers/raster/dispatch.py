@@ -64,7 +64,7 @@ def _pin_read_raster(
         hash=hash,
     )
 
-    filetype = infer_driver_info(meta).filetype
+    filetype = infer_driver_info(meta, board=board).filetype
 
     if filetype == "tif":
         return pin_read_raster_tif(board=board, **kwargs)

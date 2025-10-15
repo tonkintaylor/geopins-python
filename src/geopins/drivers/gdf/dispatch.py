@@ -65,7 +65,7 @@ def _pin_read_gdf(
         hash=hash,
     )
 
-    filetype = infer_driver_info(meta).filetype
+    filetype = infer_driver_info(meta, board=board).filetype
 
     if filetype == "gpkg":
         return pin_read_gdf_gpkg(board=board, **kwargs)

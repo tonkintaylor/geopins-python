@@ -4,9 +4,11 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import TYPE_CHECKING, Literal
 
-import geopandas as gpd
+from pyarrow import parquet
 
 if TYPE_CHECKING:
+    import pyarrow as pa
+    from pins.boards import BaseBoard
     from pins.meta import Meta
 
 
@@ -24,11 +26,12 @@ class DriverInfo:
     filetype: str
 
 
-def infer_driver_info(meta: Meta) -> DriverInfo:
+def infer_driver_info(meta: Meta, *, board: BaseBoard) -> DriverInfo:
     """Infer the Python datatype and underlying filetype from the pin metadata.
 
     Args:
         meta: The pin metadata.
+        board: The pins board the pin is stored on.
 
     Returns:
         The geopin type, or `None` if the type is not a geopin-specific type, e.g.
@@ -46,14 +49,16 @@ def infer_driver_info(meta: Meta) -> DriverInfo:
         return DriverInfo(dtype="raster", filetype="tif")
     elif ext == ".gpkg":
         return DriverInfo(dtype="gdf", filetype="gpkg")
-    elif ext == "parquet":
+    elif ext == ".parquet":
         # Need to check if it's a geoparquet - pandas also uses .parquet
-        try:
-            gpd.read_parquet(file, columns=[])
-        except ValueError as err:
-            if "Missing geo metadata" in str(err):
-                return DriverInfo(dtype=None, filetype=meta.type)
-            raise
+        full_filepath = (
+            Path(board.construct_path([meta.name, meta.version.version])) / file
+        )
+
+        schema: pa.Schema = parquet.read_schema(full_filepath)
+        metadata = schema.metadata
+        if metadata is None or b"geo" not in metadata:
+            return DriverInfo(dtype=None, filetype=meta.type)
         else:
             return DriverInfo(dtype="gdf", filetype="parquet")
     else:

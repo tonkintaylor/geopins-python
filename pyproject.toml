@@ -60,6 +60,7 @@ dev = [
 test = [
   "coverage[toml]>=7.10.1",
   "detect-test-pollution>=1.2.0",
+  "pandas>=2.3.3",
   "pytest>=8.4.1",
   "pytest-cov>=6.2.1",
   "pytest-emoji>=0.2.0",
@@ -245,7 +246,7 @@ root_packages = [ "geopins" ]
 [[tool.importlinter.contracts]]
 name = "geopins"
 type = "layers"
-layers = [ "patch_", "board", "drivers", "filetypes | interfaces" ]
+layers = [ "patch_", "boards", "drivers", "filetypes | interfaces" ]
 containers = [ "geopins" ]
 exhaustive = true
 exhaustive_ignores = [ "_version" ]

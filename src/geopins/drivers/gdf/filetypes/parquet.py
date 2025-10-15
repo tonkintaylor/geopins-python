@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import tempfile
+import warnings
 from pathlib import Path
 from typing import TYPE_CHECKING
 
@@ -105,15 +106,18 @@ def pin_write_gdf_parquet(  # noqa: PLR0913
     with tempfile.TemporaryDirectory() as tmpdir:
         tmpdir_path = Path(tmpdir)
 
-        # write geodataframe to temp directory
         path = Path(tmpdir_path) / f"{name}.parquet"
         x.to_parquet(path)
 
-        # write geodataframe back to pins
-        return board.pin_upload(
-            paths=[path.as_posix()],
-            name=name,
-            title=title,
-            description=description,
-            metadata=metadata,
-        )
+        with warnings.catch_warnings():
+            # Upstream issue with hashing a file which isn't closed properly
+            # https://github.com/rstudio/pins-python/pull/335
+            warnings.simplefilter("ignore", category=ResourceWarning)
+
+            return board.pin_upload(
+                paths=[path.as_posix()],
+                name=name,
+                title=title,
+                description=description,
+                metadata=metadata,
+            )

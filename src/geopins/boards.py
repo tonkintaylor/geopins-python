@@ -76,7 +76,7 @@ class GeoBaseBoard(BaseBoard):
 
         meta = self.pin_fetch(name, version)
 
-        driver_info = infer_driver_info(meta)
+        driver_info = infer_driver_info(meta, board=self)
         if driver_info.dtype == "gdf":
             value = _pin_read_gdf(board=self, **kwargs, meta=meta)
         elif driver_info.dtype == "raster":
