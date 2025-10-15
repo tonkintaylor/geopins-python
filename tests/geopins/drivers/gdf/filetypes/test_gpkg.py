@@ -16,7 +16,7 @@ def test_round_trip(tmp_geoboard: GeoBaseBoard):
     gdf = gpd.GeoDataFrame(
         {"id": [1, 2, 3]},
         geometry=gpd.points_from_xy([0, 1, 2], [0, 1, 2]),
-        crs="EPSG:4326",
+        crs="EPSG:2193",  # NZGD2000 / New Zealand Transverse Mercator 2000
     )
 
     # Act
@@ -26,3 +26,4 @@ def test_round_trip(tmp_geoboard: GeoBaseBoard):
 
     # Assert
     assert gdf.equals(retrieved)
+    assert gdf.crs == retrieved.crs
