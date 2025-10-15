@@ -39,7 +39,10 @@ def pin_read_gdf_gpkg(
         The GeoDataFrame stored in the pin.
     """
 
-    filenames = board.pin_download(name=name, version=version, hash=hash)
+    with warnings.catch_warnings():
+        # Upstream issue relating to opening files without context managers
+        warnings.simplefilter("ignore", category=ResourceWarning)
+        filenames = board.pin_download(name=name, version=version, hash=hash)
 
     try:
         (filename,) = filenames
