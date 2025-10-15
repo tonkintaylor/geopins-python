@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import warnings
 from typing import TYPE_CHECKING, Any, TypeVar, overload
 
 from geopandas import GeoDataFrame
@@ -74,7 +75,10 @@ class GeoBaseBoard(BaseBoard):
             hash=hash,
         )
 
-        meta = self.pin_fetch(name, version)
+        with warnings.catch_warnings():
+            # Upstream issue relating to opening files without context managers
+            warnings.simplefilter("ignore", category=ResourceWarning)
+            meta = self.pin_fetch(name, version)
 
         driver_info = infer_driver_info(meta, board=self)
         if driver_info.dtype == "gdf":
@@ -88,7 +92,10 @@ class GeoBaseBoard(BaseBoard):
             # would try to reference _its_ parent class... but it has none.
             # This is safe to do since there are no other subclasses of BaseBoard
             # which override pin_read. This limitation is documented in .patch().
-            value = base_board_pin_read(self=self, **kwargs)
+            with warnings.catch_warnings():
+                # Upstream issue relating to opening files without context managers
+                warnings.simplefilter("ignore", category=ResourceWarning)
+                value = base_board_pin_read(self=self, **kwargs)
         else:
             # Change to assert_never after deprecating 3.11 support
             raise AssertionError

@@ -110,8 +110,7 @@ def pin_write_gdf_gpkg(  # noqa: PLR0913
         x.to_file(path, driver="GPKG")
 
         with warnings.catch_warnings():
-            # Upstream issue with hashing a file which isn't closed properly
-            # https://github.com/rstudio/pins-python/pull/335
+            # Upstream issue relating to opening files without context managers
             warnings.simplefilter("ignore", category=ResourceWarning)
 
             return board.pin_upload(

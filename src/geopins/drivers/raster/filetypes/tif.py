@@ -38,7 +38,10 @@ def pin_read_raster_tif(
     Returns:
         The Raster stored in the pin.
     """
-    filenames = board.pin_download(name=name, version=version, hash=hash)
+    with warnings.catch_warnings():
+        # Upstream issue relating to opening files without context managers
+        warnings.simplefilter("ignore", category=ResourceWarning)
+        filenames = board.pin_download(name=name, version=version, hash=hash)
 
     try:
         (filename,) = filenames
@@ -109,8 +112,7 @@ def pin_write_raster_tif(  # noqa: PLR0913
         x.to_file(tif_path)
 
         with warnings.catch_warnings():
-            # Upstream issue with hashing a file which isn't closed properly
-            # https://github.com/rstudio/pins-python/pull/335
+            # Upstream issue relating to opening files without context managers
             warnings.simplefilter("ignore", category=ResourceWarning)
 
             return board.pin_upload(

@@ -246,7 +246,7 @@ root_packages = [ "geopins" ]
 [[tool.importlinter.contracts]]
 name = "geopins"
 type = "layers"
-layers = [ "patch_", "boards", "drivers", "filetypes | interfaces" ]
+layers = [ "patch_", "boards", "drivers", "meta", "filetypes | interfaces" ]
 containers = [ "geopins" ]
 exhaustive = true
 exhaustive_ignores = [ "_version" ]

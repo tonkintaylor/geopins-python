@@ -38,7 +38,6 @@ def pin_read_gdf_geoparquet(
     Returns:
         The GeoDataFrame stored in the pin.
     """
-    # read geodataframe from pins
     filenames = board.pin_download(name=name, version=version, hash=hash)
 
     try:
@@ -110,8 +109,7 @@ def pin_write_gdf_parquet(  # noqa: PLR0913
         x.to_parquet(path)
 
         with warnings.catch_warnings():
-            # Upstream issue with hashing a file which isn't closed properly
-            # https://github.com/rstudio/pins-python/pull/335
+            # Upstream issue relating to opening files without context managers
             warnings.simplefilter("ignore", category=ResourceWarning)
 
             return board.pin_upload(

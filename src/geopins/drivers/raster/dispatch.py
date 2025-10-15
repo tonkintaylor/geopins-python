@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import warnings
 from typing import TYPE_CHECKING
 
 from geopins.drivers.exceptions import raise_driver_not_supported
@@ -56,7 +57,10 @@ def _pin_read_raster(
     # since the underlying pins call will invoke .pin_fetch again). At least this way
     # we avoid fetching three times!
     if meta is None:
-        meta = board.pin_fetch(name, version)
+        with warnings.catch_warnings():
+            # Upstream issue relating to opening files without context managers
+            warnings.simplefilter("ignore", category=ResourceWarning)
+            meta = board.pin_fetch(name, version)
 
     kwargs = PinReadKwargDict(
         name=name,

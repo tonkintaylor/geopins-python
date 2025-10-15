@@ -6,6 +6,8 @@ from typing import TYPE_CHECKING, Literal
 
 from pyarrow import parquet
 
+from geopins.meta import get_pinned_file_path
+
 if TYPE_CHECKING:
     import pyarrow as pa
     from pins.boards import BaseBoard
@@ -51,11 +53,9 @@ def infer_driver_info(meta: Meta, *, board: BaseBoard) -> DriverInfo:
         return DriverInfo(dtype="gdf", filetype="gpkg")
     elif ext == ".parquet":
         # Need to check if it's a geoparquet - pandas also uses .parquet
-        full_filepath = (
-            Path(board.construct_path([meta.name, meta.version.version])) / file
-        )
+        pinned_file_path = get_pinned_file_path(meta=meta, board=board)
 
-        schema: pa.Schema = parquet.read_schema(full_filepath)
+        schema: pa.Schema = parquet.read_schema(pinned_file_path)
         metadata = schema.metadata
         if metadata is None or b"geo" not in metadata:
             return DriverInfo(dtype=None, filetype=meta.type)
