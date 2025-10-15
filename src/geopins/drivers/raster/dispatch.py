@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, assert_never
+from typing import TYPE_CHECKING
 
 from geopins.drivers.exceptions import raise_driver_not_supported
 from geopins.drivers.infer import infer_driver_info
@@ -70,7 +70,7 @@ def _pin_read_raster(
         return pin_read_raster_tif(board=board, **kwargs)
     else:
         raise_driver_not_supported(filetype, cls=board.__class__, mode="read")
-        assert_never(filetype)
+        raise AssertionError  # Change to assert_never after deprecating 3.11 support
 
 
 def pin_write_raster(  # noqa: PLR0913
@@ -133,4 +133,4 @@ def pin_write_raster(  # noqa: PLR0913
         return pin_write_raster_tif(x, board=board, **kwargs)
     else:
         raise_driver_not_supported(type_, cls=board.__class__, mode="write")
-        assert_never(type_)
+        raise AssertionError  # Change to assert_never after deprecating 3.11 support

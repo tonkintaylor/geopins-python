@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, TypeVar, assert_never, overload
+from typing import TYPE_CHECKING, Any, TypeVar, overload
 
 from geopandas import GeoDataFrame
 from pins.boards import BaseBoard
@@ -90,7 +90,8 @@ class GeoBaseBoard(BaseBoard):
             # which override pin_read. This limitation is documented in .patch().
             value = base_board_pin_read(self=self, **kwargs)
         else:
-            assert_never(driver_info.dtype)
+            # Change to assert_never after deprecating 3.11 support
+            raise AssertionError
 
         # N.B. this logic isn't in the original pins implementation, and doesn't make
         # much sense to contribute upstream since Python pins tries tries not to diverge

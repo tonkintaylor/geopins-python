@@ -1,11 +1,11 @@
-from typing import Literal, Never, assert_never
+from typing import Literal
 
 from geopins.filetypes import get_filetype_display_name
 
 
 def raise_driver_not_supported(
     filetype: str, *, cls: type[object], mode: Literal["read", "write"]
-) -> Never:
+) -> None:  # Change to Never for Python 3.12
     """Raise a NotImplementedError indicating that the driver is not supported.
 
     Args:
@@ -30,7 +30,8 @@ def raise_driver_not_supported(
             msg = f"Cannot save type: {filetype}"
             raise NotImplementedError(msg) from None
         else:
-            assert_never(mode)
+            # Change to assert_never after deprecating 3.11 support
+            raise AssertionError from None
     else:
         if mode == "read":
             # Nothing to match with!
@@ -43,4 +44,5 @@ def raise_driver_not_supported(
             msg = f"Writing to {name} is not supported for {cls.__name__}."
             raise NotImplementedError(msg)
         else:
-            assert_never(mode)
+            # Change to assert_never after deprecating 3.11 support
+            raise AssertionError

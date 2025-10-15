@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, assert_never
+from typing import TYPE_CHECKING
 
 from geopins.drivers.exceptions import raise_driver_not_supported
 from geopins.drivers.gdf.filetypes.gpkg import pin_read_gdf_gpkg, pin_write_gdf_gpkg
@@ -73,7 +73,7 @@ def _pin_read_gdf(
         return pin_read_gdf_geoparquet(board=board, **kwargs)
     else:
         raise_driver_not_supported(filetype, cls=board.__class__, mode="read")
-        assert_never(filetype)
+        raise AssertionError  # Change to assert_never after deprecating 3.11 support
 
 
 def pin_write_gdf(  # noqa: PLR0913
@@ -139,4 +139,4 @@ def pin_write_gdf(  # noqa: PLR0913
         return pin_write_gdf_parquet(x, board=board, **kwargs)
     else:
         raise_driver_not_supported(type_, cls=board.__class__, mode="write")
-        assert_never(type_)
+        raise AssertionError  # Change to assert_never after deprecating 3.11 support
