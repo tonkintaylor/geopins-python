@@ -20,6 +20,36 @@ uv add geopins
 pip install geopins
 ```
 
+## Quick Start
+
+```python
+from pins import board_local
+
+# Patch pins to support geospatial data
+import geopins
+geopins.patch()
+
+# Define any pins board as usual
+b = board_local()
+
+# Save a GeoDataFrame
+import geopandas as gpd
+gdf = b.pin_write(
+    gpd.GeoDataFrame({"x": [1, 2, 3]}, geometry=gpd.points_from_xy([1, 2, 3], [4, 5, 6])),
+    "gdf_example",
+)
+
+# Read it back
+gdf = b.pin_read("gdf_example")
+
+# Save a raster
+from rastr.raster import Raster
+b.pin_write(Raster.example(), "raster_example")
+
+# Read it back
+raster = b.pin_read("raster_example")
+```
+
 ## Contributing
 
 See the

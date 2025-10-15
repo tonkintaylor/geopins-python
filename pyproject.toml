@@ -29,6 +29,10 @@ classifiers = [
 ]
 dynamic = [ "urls", "version" ]
 dependencies = [
+    "geopandas>=1.1.1",
+    "pins>=0.9.1",
+    "pyarrow>=21.0.0",
+    "rastr>=0.6.0",
 ]
 
 [dependency-groups]
@@ -170,16 +174,6 @@ lint.per-file-ignores."tests/**/*.py" = [
 ]
 lint.allowed-confusables = [ "ℹ", "–", "σ" ]
 lint.flake8-tidy-imports.banned-api."pytz".msg = "'zoneinfo' should be preferred to 'pytz' when using Python 3.9 and later, see https://tonkintaylor-sonarqube.azurewebsites.net/coding_rules?open=python%3AS6890&rule_key=python%3AS6890"
-lint.flake8-tidy-imports.banned-module-level-imports = [
-  "branca",
-  "folium",
-  "geopandas",
-  "matplotlib",
-  "mpl_toolkits",
-  "pandas",
-  "scipy",
-  "tqdm",
-]
 
 lint.flake8-type-checking.quote-annotations = true
 lint.flake8-type-checking.runtime-evaluated-base-classes = [ "pydantic.BaseModel" ]
@@ -249,7 +243,14 @@ root_packages = [ "geopins" ]
 [[tool.importlinter.contracts]]
 name = "geopins"
 type = "layers"
-layers = [  ]
+layers = [ "patch_", "board", "drivers", "filetypes | interfaces" ]
 containers = [ "geopins" ]
 exhaustive = true
 exhaustive_ignores = [ "_version" ]
+
+[[tool.importlinter.contracts]]
+name = "geopins.drivers"
+type = "layers"
+layers = [ "gdf | raster", "exceptions | infer" ]
+containers = [ "geopins.drivers" ]
+exhaustive = true
