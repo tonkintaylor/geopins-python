@@ -29,6 +29,10 @@ classifiers = [
 ]
 dynamic = [ "urls", "version" ]
 dependencies = [
+  "geopandas>=1.1.1",
+  "pins>=0.9.1",
+  "pyarrow>=21.0.0",
+  "rastr>=0.6.0",
 ]
 
 [dependency-groups]
@@ -56,6 +60,7 @@ dev = [
 test = [
   "coverage[toml]>=7.10.1",
   "detect-test-pollution>=1.2.0",
+  "pandas>=2.3.3",
   "pytest>=8.4.1",
   "pytest-cov>=6.2.1",
   "pytest-emoji>=0.2.0",
@@ -170,16 +175,6 @@ lint.per-file-ignores."tests/**/*.py" = [
 ]
 lint.allowed-confusables = [ "ℹ", "–", "σ" ]
 lint.flake8-tidy-imports.banned-api."pytz".msg = "'zoneinfo' should be preferred to 'pytz' when using Python 3.9 and later, see https://tonkintaylor-sonarqube.azurewebsites.net/coding_rules?open=python%3AS6890&rule_key=python%3AS6890"
-lint.flake8-tidy-imports.banned-module-level-imports = [
-  "branca",
-  "folium",
-  "geopandas",
-  "matplotlib",
-  "mpl_toolkits",
-  "pandas",
-  "scipy",
-  "tqdm",
-]
 
 lint.flake8-type-checking.quote-annotations = true
 lint.flake8-type-checking.runtime-evaluated-base-classes = [ "pydantic.BaseModel" ]
@@ -193,6 +188,8 @@ ignore-words-list = [ "..." ]
 [tool.deptry]
 extend_exclude = [ "src/notebooks", "src/scripts", "src/archive" ]
 experimental_namespace_package = true
+[tool.deptry.per_rule_ignores]
+DEP002 = [ "pyarrow" ]
 
 [tool.pyproject-fmt]
 keep_full_version = true
@@ -249,7 +246,14 @@ root_packages = [ "geopins" ]
 [[tool.importlinter.contracts]]
 name = "geopins"
 type = "layers"
-layers = [  ]
+layers = [ "patch_", "boards", "drivers", "meta", "filetypes | interfaces" ]
 containers = [ "geopins" ]
 exhaustive = true
 exhaustive_ignores = [ "_version" ]
+
+[[tool.importlinter.contracts]]
+name = "geopins.drivers"
+type = "layers"
+layers = [ "gdf | raster", "exceptions | infer" ]
+containers = [ "geopins.drivers" ]
+exhaustive = true
