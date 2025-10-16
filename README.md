@@ -8,8 +8,6 @@
 
 The geopins package provides geospatial support for the [Python pins package](https://github.com/rstudio/pins-python). The package publishes data, models, and other Python objects, making it easy to share them across projects and with your colleagues. With `geopins`, there is support for geospatial datatypes (e.g. `geopandas.GeoDatFrame`, and `rastr.Raster`) and filetypes (e.g. `GeoPackage`, and `GeoTIFF`), fully compatible with your existing pins boards.
 
-The pins package provides drivers for standard Python tabular datatypes (e.g. `pandas.DataFrame`) and filetypes (e.g. CSV, Parquet, etc.). The geopins package brings the same experience to geospatial datatypes (e.g. `geopandas.GeoDatFrame`, and `rastr.Raster` and filetypes, fully compatible with your existing pins boards.
-
 ## Installation
 
 ```bash
