@@ -3,6 +3,7 @@ from __future__ import annotations
 import tempfile
 import warnings
 from pathlib import Path
+from sqlite3 import connect
 from typing import TYPE_CHECKING
 
 import geopandas as gpd
@@ -112,6 +113,9 @@ def pin_write_gdf_gpkg(  # noqa: PLR0913
         path = Path(tmpdir_path) / f"{name}.gpkg"
         x.to_file(path, driver="GPKG")
 
+        # Overwrite the modification time to keep hashing stable and release locks.
+        _snapshot_last_change(path=path)
+
         with warnings.catch_warnings():
             # Upstream issue relating to opening files without context managers
             warnings.simplefilter("ignore", category=ResourceWarning)
@@ -123,3 +127,21 @@ def pin_write_gdf_gpkg(  # noqa: PLR0913
                 description=description,
                 metadata=metadata,
             )
+
+
+def _snapshot_last_change(path: Path) -> None:
+    """Set the last_change timestamp to Unix epoch to keep GeoPackage hashing stable."""
+
+    # Avoid `with connect(...)` because the context manager delays handle release on
+    # Windows, which keeps the temporary GeoPackage locked during cleanup.
+    conn = connect(path.as_posix())
+    try:
+        conn.execute(
+            """
+            UPDATE gpkg_contents
+            SET last_change = '1970-01-01T00:00:00Z';
+            """
+        )
+        conn.commit()
+    finally:
+        conn.close()
