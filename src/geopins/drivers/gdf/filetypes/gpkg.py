@@ -132,6 +132,8 @@ def pin_write_gdf_gpkg(  # noqa: PLR0913
 def _snapshot_last_change(path: Path) -> None:
     """Set the last_change timestamp to Unix epoch to keep GeoPackage hashing stable."""
 
+    # Avoid `with connect(...)` because the context manager delays handle release on
+    # Windows, which keeps the temporary GeoPackage locked during cleanup.
     conn = connect(path.as_posix())
     try:
         conn.execute(
