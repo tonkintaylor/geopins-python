@@ -44,7 +44,9 @@ jobs:
           PYTHON_VERSION: ${{ matrix.python-version }}
 
       - name: Run Prek
-        uses: j178/prek-action@0bb87d7f00b0c99306c8bcb8b8beba1eb581c037 # v1.1.1
+        if: matrix.checks
+        run: |
+          uv run --frozen prek run --all-files
 
       - name: Run pyright
         if: matrix.checks
