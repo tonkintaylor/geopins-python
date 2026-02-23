@@ -81,10 +81,10 @@ def pin_write_gdf_parquet(  # noqa: PLR0913
         versioned: Whether the pin should be versioned. Defaults to versioning.
         created: A date to store in the Meta.created field. This field may be used
                     as part of the pin version name.
-        force_identical_write: Store the pin even if the pin contents are identical
-                                to the last version (compared using the hash). Only
-                                the pin contents are compared, not the pin metadata.
-                                Defaults to False.
+        force_identical_write: Not supported. Store the pin even if the pin contents
+                                are identical to the last version (compared using
+                                the hash). Only the pin contents are compared, not
+                                the pin metadata. Defaults to False.
         board: The (geo)pins board to write to.
 
     Returns:
