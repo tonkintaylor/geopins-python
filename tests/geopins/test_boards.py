@@ -1,13 +1,11 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
-
 import pandas as pd
 import pytest
+from pins.boards import BaseBoard
 from rastr.raster import Raster
 
-if TYPE_CHECKING:
-    from geopins import GeoBaseBoard
+from geopins import GeoBaseBoard
 
 
 class TestGeoBaseBoard:
@@ -45,3 +43,7 @@ class TestGeoBaseBoard:
         # Assert
         with pytest.raises(TypeError):
             tmp_geoboard.pin_read("test", verify_type=str)  # wrong type
+
+    def test_base_board_subtype(self, tmp_geoboard: GeoBaseBoard):
+        assert isinstance(tmp_geoboard, GeoBaseBoard)
+        assert isinstance(tmp_geoboard, BaseBoard)
