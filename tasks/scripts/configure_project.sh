@@ -1,14 +1,14 @@
 #!/bin/bash
 
-output=$(uv pip show pre-commit &> /dev/null)
+output=$(uv pip show prek &> /dev/null)
 if [ $? -eq 0 ]
 then
-    echo Installing pre-commit hooks...
-    output=$(uv run pre-commit install 2>&1)
+    echo Installing prek hooks...
+    output=$(uv run prek install 2>&1)
     if [ $? -ne 0 ]
     then
         echo "$output"
-        echo "Error: pre-commit install failed."
+        echo "Error: prek install failed."
         exit 1
     fi
 fi
