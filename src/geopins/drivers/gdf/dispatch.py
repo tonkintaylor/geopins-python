@@ -7,7 +7,7 @@ from geopins.drivers.exceptions import raise_driver_not_supported
 from geopins.drivers.gdf.filetypes.gpkg import pin_read_gdf_gpkg, pin_write_gdf_gpkg
 from geopins.drivers.gdf.filetypes.parquet import (
     pin_read_gdf_geoparquet,
-    pin_write_gdf_parquet,
+    pin_write_gdf_geoparquet,
 )
 from geopins.drivers.infer import infer_driver_info
 from geopins.interfaces import PinReadKwargDict, PinWriteKwargDict
@@ -140,7 +140,7 @@ def pin_write_gdf(  # noqa: PLR0913
     if type_ in ("geopackage", "gpkg"):
         return pin_write_gdf_gpkg(x, board=board, **kwargs)
     elif type_ == "parquet":
-        return pin_write_gdf_parquet(x, board=board, **kwargs)
+        return pin_write_gdf_geoparquet(x, board=board, **kwargs)
     else:
         raise_driver_not_supported(type_, cls=board.__class__, mode="write")
         raise AssertionError  # Change to assert_never after deprecating 3.11 support

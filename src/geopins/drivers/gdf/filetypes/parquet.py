@@ -52,7 +52,7 @@ def pin_read_gdf_geoparquet(
     return gpd.read_parquet(filename)
 
 
-def pin_write_gdf_parquet(  # noqa: PLR0913
+def pin_write_gdf_geoparquet(  # noqa: PLR0913
     # N.B. match pins.boards.BaseBoard.pin_write signature
     x: GeoDataFrame,
     name: str | None = None,
