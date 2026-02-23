@@ -19,7 +19,7 @@
 - We use Python 3.12, so ensure that the code is compatible and up to date with this version.
 - When adding a new package that requires installation, add it using `uv add <pkg>` so it gets properly declared.
 - When running a CLI such as `pytest`, always run it using `uv run`, e.g. `uv run pytest`.
-- Always run `uv run pre-commit run --all-files` to determine whether your code is compliant with the pre-commit hooks, including linters.
+- Always run `uv run prek run --all-files` to determine whether your code is compliant with the pre-commit hooks, including linters.
 - When importing internal modules, do not include the "src" folder in the import path as it is already defined in pyproject.toml
 - Limit line length to 100 characters.
 - Never create functions that return more than one output value (i.e. Never return tuples). Use dedicated return classes.
