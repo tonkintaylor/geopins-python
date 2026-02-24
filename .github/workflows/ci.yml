@@ -30,11 +30,6 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Setup git user config
-        run: |
-          git config --global user.name placeholder
-          git config --global user.email placeholder@example.com
-
       - name: Set up uv
         uses: astral-sh/setup-uv@f94ec6bedd8674c4426838e6b50417d36b6ab231 # v5.3.1
         with:
@@ -48,10 +43,10 @@ jobs:
         env:
           PYTHON_VERSION: ${{ matrix.python-version }}
 
-      - name: Run pre-commit
+      - name: Run Prek
         if: matrix.checks
         run: |
-          uv run pre-commit run --all-files
+          uv run --frozen prek run --all-files
 
       - name: Run pyright
         if: matrix.checks

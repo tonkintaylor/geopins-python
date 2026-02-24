@@ -22,11 +22,11 @@ uv sync
 
 ### Pre-commit Hooks
 
-This project uses the `pre-commit` framework to manage Git hooks. To install the hooks,
+This project uses the `prek` framework to manage Git hooks. To install the hooks,
 run:
 
 ```shell
-uv run pre-commit install
+uv run prek install
 ```
 
 ## Testing
