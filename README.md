@@ -6,7 +6,7 @@
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![usethis](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/usethis-python/usethis-python/main/assets/badge/v1.json)](https://github.com/usethis-python/usethis-python)
 
-The geopins package provides geospatial support for the [Python pins package](https://github.com/rstudio/pins-python). The package publishes data, models, and other Python objects, making it easy to share them across projects and with your colleagues. With `geopins`, there is support for geospatial datatypes (e.g. `geopandas.GeoDatFrame`, and `rastr.Raster`) and filetypes (e.g. `GeoPackage`, and `GeoTIFF`), fully compatible with your existing pins boards.
+The geopins package provides geospatial support for the [Python pins package](https://github.com/rstudio/pins-python). The package publishes data, models, and other Python objects, making it easy to share them across projects and with your colleagues. With `geopins`, there is support for geospatial datatypes (e.g. [`geopandas.GeoDatFrame`](https://geopandas.org/en/latest/index.html), and [`rastr.Raster`](https://rastr.readthedocs.io/en/latest/)) and filetypes (e.g. `GeoPackage`, and `GeoTIFF`), fully compatible with your existing pins boards.
 
 ## Installation
 
