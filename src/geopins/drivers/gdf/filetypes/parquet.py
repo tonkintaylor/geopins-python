@@ -16,7 +16,7 @@ if TYPE_CHECKING:
     from pins.meta import Meta
 
 
-def pin_read_gdf_geoparquet(
+def pin_read_gdf_parquet(
     name: str,
     version: str | None = None,
     hash: str | None = None,  # noqa: A002
