@@ -30,11 +30,6 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Setup git user config
-        run: |
-          git config --global user.name placeholder
-          git config --global user.email placeholder@example.com
-
       - name: Set up uv
         uses: astral-sh/setup-uv@f94ec6bedd8674c4426838e6b50417d36b6ab231 # v5.3.1
         with:
@@ -48,10 +43,10 @@ jobs:
         env:
           PYTHON_VERSION: ${{ matrix.python-version }}
 
-      - name: Run pre-commit
+      - name: Run Prek
         if: matrix.checks
         run: |
-          uv run pre-commit run --all-files
+          uv run --frozen prek run --all-files
 
       - name: Run pyright
         if: matrix.checks
@@ -75,11 +70,11 @@ jobs:
           MPLBACKEND: Agg # https://github.com/orgs/community/discussions/26434
 
       - name: Create test reports directory
-        if: matrix.pytest && matrix.os == 'ubuntu-latest' && matrix.python-version == '3.10' && matrix.resolution == 'highest'
+        if: matrix.pytest && matrix.python-version == '3.10' && matrix.resolution == 'highest'
         run: mkdir -p ./test-reports
 
       - name: Upload coverage reports
-        if: matrix.pytest && matrix.os == 'ubuntu-latest' && matrix.python-version == '3.10' && matrix.resolution == 'highest'
+        if: matrix.pytest && matrix.python-version == '3.10' && matrix.resolution == 'highest'
         uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4.4.3
         with:
           name: coverage-reports
@@ -87,15 +82,27 @@ jobs:
 
     strategy:
       matrix:
-        os: ["ubuntu-latest", "macos-latest", "windows-latest"]
+        os: ["ubuntu-latest"]
         python-version: ["3.10", "3.11", "3.12", "3.13"]
         resolution: ["highest"]
         checks: [true]
         pytest: [true]
         include:
+          # Min-dependency run on Linux
           - os: "ubuntu-latest"
             python-version: "3.10"
             resolution: "lowest-direct"
+            checks: false
+            pytest: true
+          # Cross-platform spot-checks on latest Python only (cost-reduced from full matrix)
+          - os: "windows-latest"
+            python-version: "3.13"
+            resolution: "highest"
+            checks: false
+            pytest: true
+          - os: "macos-latest"
+            python-version: "3.13"
+            resolution: "highest"
             checks: false
             pytest: true
 
@@ -141,3 +148,4 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
+
