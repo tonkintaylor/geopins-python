@@ -30,7 +30,7 @@ def test_round_trip(tmp_geoboard: GeoBaseBoard):
     assert gdf.crs == retrieved.crs
 
 
-def test_hash_is_not_dependent_on_file_write_time(tmp_geoboard: GeoBaseBoard):
+def test_hash_independent_of_file_write_time(tmp_geoboard: GeoBaseBoard):
     # Arrange
     gdf = gpd.GeoDataFrame(
         {"id": [1, 2, 3]},
