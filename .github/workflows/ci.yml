@@ -37,6 +37,10 @@ jobs:
           enable-cache: true
 
       - name: Setup Python
+        # Use bash on every OS: PowerShell does not expand ${PYTHON_VERSION}, so on
+        # Windows `uv python pin` would only print the existing pin and the matrix
+        # version would never be applied.
+        shell: bash
         run: |
           uv python pin ${PYTHON_VERSION}
           uv python install
